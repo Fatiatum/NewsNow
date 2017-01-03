@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">News Now</string>
+    <string name="all_news">All</string>
+    <string name="business_news">Business</string>
+    <string name="entertainment_news">Entertainment</string>
+    <string name="gaming_news">Gaming</string>
+    <string name="general_news">General</string>
+    <string name="music_news">Music</string>
+    <string name="science_and_nature_news">Science &amp; Nature</string>
+    <string name="sport_news">Sport</string>
+    <string name="technology_news">Technology</string>
+
+
+</resources>
