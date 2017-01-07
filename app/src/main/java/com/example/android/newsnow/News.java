@@ -53,4 +53,5 @@ public class News {
     public String getSource() {
         return mSource;
     }
+
 }

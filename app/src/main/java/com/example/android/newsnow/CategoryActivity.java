@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -23,11 +24,11 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.news_item);
+        setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
         mCategory = intent.getStringExtra("category");
-
+        /*
         ListView listView = (ListView) findViewById(R.id.list);
         mAdapter = new SourceAdapter(this, new ArrayList<NewsSource>());
         listView.setAdapter(mAdapter);
@@ -41,7 +42,7 @@ public class CategoryActivity extends AppCompatActivity {
                 startActivity(newsIntent);
             }
         });
-
+*/
         // Start the AsyncTask to fetch the sources data
         CategoryAsyncTask task = new CategoryAsyncTask();
         task.execute(makeUrl());
@@ -52,6 +53,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private class CategoryAsyncTask extends AsyncTask<String, Void, List<NewsSource>>{
+
         @Override
         protected List<NewsSource> doInBackground(String... urls) {
             if(urls.length < 1 || urls[0] == null)
@@ -63,11 +65,13 @@ public class CategoryActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(List<NewsSource> sources) {
-            mAdapter.clear();
-
-            if(sources != null && !sources.isEmpty()){
-                mAdapter.addAll(sources);
+            Intent newsIntent = new Intent(CategoryActivity.this, NewsActivity.class);
+            ArrayList<String> allSources = new ArrayList<>();
+            for(int i = 0; i < sources.size(); i++){
+                allSources.add(sources.get(i).getId());
             }
+            newsIntent.putExtra("sources", allSources);
+            startActivity(newsIntent);
         }
     }
 }

@@ -23,7 +23,7 @@ public final class NewsRequest {
 
     private NewsRequest() {}
 
-    public static List<News> fetchNews(String requestUrl, String sourceId) {
+    public static List<News> fetchNews(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -36,13 +36,13 @@ public final class NewsRequest {
         }
 
         // Extract relevant fields from the JSON response and create a list of Sources
-        List<News> news = extractDataFromJson(jsonResponse, sourceId);
+        List<News> news = extractDataFromJson(jsonResponse);
 
         // Return the list of Sources
         return news;
     }
 
-    private static List<News> extractDataFromJson(String jsonResponse, String sourceId) {
+    private static List<News> extractDataFromJson(String jsonResponse) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -55,7 +55,7 @@ public final class NewsRequest {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(jsonResponse);
-
+            String source = baseJsonResponse.getString("source");
             // Extract the JSONArray associated with the key called "sources",
             JSONArray newsArray = baseJsonResponse.getJSONArray("articles");
 
@@ -74,7 +74,7 @@ public final class NewsRequest {
                 String date = currentNews.getString("publishedAt");
 
                 // Create a new Source object with all extracted data
-                News news = new News(author, title, description, url, urlToImage, date, sourceId);
+                News news = new News(author, title, description, url, urlToImage, date, source);
                 // Add the new Source to the list of sources.
                 newsList.add(news);
             }
