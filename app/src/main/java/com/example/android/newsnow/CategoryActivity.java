@@ -11,43 +11,47 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SportActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity {
 
     private SourceAdapter mAdapter;
 
     /** URL for earthquake data from the USGS dataset */
     private static final String REQUEST_URL =
-            "https://newsapi.org/v1/sources?language=en&category=sport";
+            "https://newsapi.org/v1/sources?language=en&category=";
+    private String mCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.news_item);
 
-        // find the listView object in view of this Activity
+        Intent intent = getIntent();
+        mCategory = intent.getStringExtra("category");
+
         ListView listView = (ListView) findViewById(R.id.list);
-        // create an adapter whose data is a list of news
         mAdapter = new SourceAdapter(this, new ArrayList<NewsSource>());
-
-        // allows the listView to use the adapter created above
         listView.setAdapter(mAdapter);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 NewsSource currentSource = mAdapter.getItem(position);
-                Intent newsIntent = new Intent(SportActivity.this, NewsActivity.class);
+                Intent newsIntent = new Intent(CategoryActivity.this, NewsActivity.class);
                 newsIntent.putExtra("sourceId", currentSource.getId());
                 startActivity(newsIntent);
             }
         });
 
         // Start the AsyncTask to fetch the sources data
-        SportsAsyncTask task = new SportsAsyncTask ();
-        task.execute(REQUEST_URL);
+        CategoryAsyncTask task = new CategoryAsyncTask();
+        task.execute(makeUrl());
     }
 
-    private class SportsAsyncTask extends AsyncTask<String, Void, List<NewsSource>>{
+    private String makeUrl() {
+        return REQUEST_URL + mCategory;
+    }
+
+    private class CategoryAsyncTask extends AsyncTask<String, Void, List<NewsSource>>{
         @Override
         protected List<NewsSource> doInBackground(String... urls) {
             if(urls.length < 1 || urls[0] == null)

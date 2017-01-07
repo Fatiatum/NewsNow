@@ -18,11 +18,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SportActivity"
-            android:label="@string/sport_news" />
+            android:name=".CategoryActivity"
+            android:label="News Now" />
         <activity
             android:name=".NewsActivity"
-            android:label="News" />
+            android:label="News Now" />
     </application>
 
 </manifest>

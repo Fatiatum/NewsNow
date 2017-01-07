@@ -32,7 +32,7 @@ public class NewsAdapter extends ArrayAdapter<News>{
         // Get the news title from the currentNews object and set this text on the title TextView.
         titleTextView.setText(currentNews.getTitle());
 
-        // Find the TextView in the news_feed.xml layout with the ID news_title_view.
+        // Find the TextView in the news_feed.xml layout with the ID news_source_view.
         TextView sourceTextView = (TextView) listItemView.findViewById(R.id.news_source_view);
         // Get the news title from the currentNews object and set this text on the title TextView.
         sourceTextView.setText(currentNews.getSource());
