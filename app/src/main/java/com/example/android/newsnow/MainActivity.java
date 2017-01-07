@@ -1,13 +1,20 @@
 package com.example.android.newsnow;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String REQUEST_URL = "https://newsapi.org/v1/sources?language=en&category=";
+    private String mCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,16 +23,14 @@ public class MainActivity extends AppCompatActivity {
         // Set the content of the activity to use the activity_main.xml layout file
         setContentView(R.layout.activity_main);
 
-        // Create a new intent to open the SportsActivity
-        final Intent categoryIntent = new Intent(MainActivity.this, CategoryActivity.class);
-
         // Find the View that shows the sports category
         TextView business = (TextView) findViewById(R.id.business);
         business.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","business");
-                startActivity(categoryIntent);
+                mCategory = "business";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -34,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
         entertainment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","entertainment");
-                startActivity(categoryIntent);
+                mCategory = "entertainment";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -44,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
         gaming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","gaming");
-                startActivity(categoryIntent);
+                mCategory = "gaming";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -54,8 +61,9 @@ public class MainActivity extends AppCompatActivity {
         general.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","general");
-                startActivity(categoryIntent);
+                mCategory = "general";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -64,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
         music.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","music");
-                startActivity(categoryIntent);
+                mCategory = "music";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -74,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
         san.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","science-and-nature");
-                startActivity(categoryIntent);
+                mCategory = "science-and-nature";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -84,8 +94,9 @@ public class MainActivity extends AppCompatActivity {
         sports.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","sport");
-                startActivity(categoryIntent);
+                mCategory = "sport";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
 
@@ -94,9 +105,38 @@ public class MainActivity extends AppCompatActivity {
         technology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryIntent.putExtra("category","technology");
-                startActivity(categoryIntent);
+                mCategory = "technology";
+                MainActivity.CategoryAsyncTask task = new MainActivity.CategoryAsyncTask();
+                task.execute(makeUrl());
             }
         });
+
+    }
+
+    private String makeUrl() {
+        return REQUEST_URL + mCategory;
+    }
+
+    private class CategoryAsyncTask extends AsyncTask<String, Void, List<NewsSource>> {
+
+        @Override
+        protected List<NewsSource> doInBackground(String... urls) {
+            if(urls.length < 1 || urls[0] == null)
+                return null;
+
+            List<NewsSource> result = SourceRequest.fetchSources(urls[0]);
+            return result;
+        }
+
+        @Override
+        protected void onPostExecute(List<NewsSource> sources) {
+            Intent newsIntent = new Intent(MainActivity.this, NewsActivity.class);
+            ArrayList<String> allSources = new ArrayList<>();
+            for(int i = 0; i < sources.size(); i++){
+                allSources.add(sources.get(i).getId());
+            }
+            newsIntent.putExtra("sources", allSources);
+            startActivity(newsIntent);
+        }
     }
 }
