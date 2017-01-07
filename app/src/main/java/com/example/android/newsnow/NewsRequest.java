@@ -1,5 +1,6 @@
 package com.example.android.newsnow;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -18,17 +19,11 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by fc__j on 04/01/2017.
- */
-public final class SourceRequest {
+public final class NewsRequest {
 
-    /** Tag for the log messages */
-    private static final String LOG_TAG = SourceRequest.class.getSimpleName();
+    private NewsRequest() {}
 
-    private SourceRequest() {}
-
-    public static List<NewsSource> fetchSources(String requestUrl) {
+    public static List<News> fetchNews(String requestUrl, String sourceId) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -37,80 +32,62 @@ public final class SourceRequest {
         try {
             jsonResponse = makeHttpRequest(url);
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+            Log.e("NewsRequest", "Problem making the HTTP request.", e);
         }
 
         // Extract relevant fields from the JSON response and create a list of Sources
-        List<NewsSource> sources = extractDataFromJson(jsonResponse);
+        List<News> news = extractDataFromJson(jsonResponse, sourceId);
 
         // Return the list of Sources
-        return sources;
+        return news;
     }
 
-    private static URL createUrl(String stringUrl) {
-        URL url = null;
-        try {
-            url = new URL(stringUrl);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
-        }
-        return url;
-    }
-
-    private static List<NewsSource> extractDataFromJson(String jsonResponse) {
+    private static List<News> extractDataFromJson(String jsonResponse, String sourceId) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
         }
 
         // Create an empty ArrayList that we can start adding earthquakes to
-        List<NewsSource> sources = new ArrayList<>();
+        List<News> newsList = new ArrayList<>();
 
-        // Try to parse the JSON response string. If there's a problem with the way the JSON
-        // is formatted, a JSONException exception object will be thrown.
-        // Catch the exception so the app doesn't crash, and print the error message to the logs.
         try {
 
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(jsonResponse);
 
             // Extract the JSONArray associated with the key called "sources",
-            JSONArray sourcesArray = baseJsonResponse.getJSONArray("sources");
+            JSONArray newsArray = baseJsonResponse.getJSONArray("articles");
 
-            // For each source in the sourcesArray, create an Source object
-            for (int i = 0; i < sourcesArray.length(); i++) {
+            // For each source in the newsArray, create an Source object
+            for (int i = 0; i < newsArray.length(); i++) {
 
                 // Get a single source at position i within the list of sources
-                JSONObject currentSource = sourcesArray.getJSONObject(i);
+                JSONObject currentNews = newsArray.getJSONObject(i);
 
                 // Extract all information used for sources
-                String id = currentSource.getString("id");
-                String name = currentSource.getString("name");
-                String description = currentSource.getString("description");
-                String url = currentSource.getString("url");
-                String country = currentSource.getString("country");
-                String language = currentSource.getString("language");
-                JSONObject logos = currentSource.getJSONObject("urlsToLogos");
-                JSONArray sortBys = currentSource.getJSONArray("sortBysAvailable");
+                String author = currentNews.getString("author");
+                String title = currentNews.getString("title");
+                String description = currentNews.getString("description");
+                String url = currentNews.getString("url");
+                String urlToImage = currentNews.getString("urlToImage");
+                String date = currentNews.getString("publishedAt");
 
                 // Create a new Source object with all extracted data
-                NewsSource source = new NewsSource(id, name, description, url, country, language);
-                source.setSLogo(logos.getString("small"));
-                source.setMLogo(logos.getString("medium"));
-                source.setLLogo(logos.getString("large"));
+                News news = new News(author, title, description, url, urlToImage, date, sourceId);
                 // Add the new Source to the list of sources.
-                sources.add(source);
+                newsList.add(news);
             }
 
         } catch (JSONException e) {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("SourceRequest", "Problem parsing the sources JSON results", e);
+            Log.e("NewsRequest", "Problem parsing the news JSON results", e);
         }
 
         // Return the list of sources
-        return sources;
+        return newsList;
     }
 
     private static String makeHttpRequest(URL url) throws IOException {
@@ -136,10 +113,10 @@ public final class SourceRequest {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+                Log.e("NewsRequest", "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Source JSON results.", e);
+            Log.e("NewsRequest", "Problem retrieving the News JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -151,7 +128,7 @@ public final class SourceRequest {
         return jsonResponse;
     }
 
-    private static String readFromStream(InputStream inputStream) throws IOException {
+    private static String readFromStream(InputStream inputStream) throws IOException{
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
@@ -164,4 +141,15 @@ public final class SourceRequest {
         }
         return output.toString();
     }
+
+    private static URL createUrl(String requestUrl) {
+        URL url = null;
+        try {
+            url = new URL(requestUrl);
+        } catch (MalformedURLException e) {
+            Log.e("NewsRequest", "Problem building the URL ", e);
+        }
+        return url;
+    }
+
 }

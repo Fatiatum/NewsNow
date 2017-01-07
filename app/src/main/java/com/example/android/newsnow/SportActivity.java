@@ -1,19 +1,15 @@
 package com.example.android.newsnow;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.GridView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.transform.Source;
 
 public class SportActivity extends AppCompatActivity {
 
@@ -29,12 +25,22 @@ public class SportActivity extends AppCompatActivity {
         setContentView(R.layout.news_item);
 
         // find the listView object in view of this Activity
-        ListView textView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.list);
         // create an adapter whose data is a list of news
         mAdapter = new SourceAdapter(this, new ArrayList<NewsSource>());
 
         // allows the listView to use the adapter created above
-        textView.setAdapter(mAdapter);
+        listView.setAdapter(mAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                NewsSource currentSource = mAdapter.getItem(position);
+                Intent newsIntent = new Intent(SportActivity.this, NewsActivity.class);
+                newsIntent.putExtra("sourceId", currentSource.getId());
+                startActivity(newsIntent);
+            }
+        });
 
         // Start the AsyncTask to fetch the sources data
         SportsAsyncTask task = new SportsAsyncTask ();

@@ -3,13 +3,14 @@ package com.example.android.newsnow;
 public class NewsSource {
 
     private static final int NO_IMAGE = -1;
-    private String mName, mCountry, mDescription, mUrl, mLanguage, mSmallLogo, mMediumLogo, mLargeLogo;
+    private String mId, mName, mCountry, mDescription, mUrl, mLanguage, mSmallLogo, mMediumLogo, mLargeLogo;
     private boolean mTop = false;
     private boolean mLatest = false;
     private boolean mPopular = false;
     private int mImageResourceId = NO_IMAGE;
 
-    public NewsSource(String name, String description, String url, String country, String language) {
+    public NewsSource(String id, String name, String description, String url, String country, String language) {
+        mId = id;
         mName = name;
         mDescription = description;
         mUrl = url;
@@ -35,6 +36,10 @@ public class NewsSource {
 
     public String getDescription() {
         return mDescription;
+    }
+
+    public String getId() {
+        return mId;
     }
 
     public void setSLogo(String small) {

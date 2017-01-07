@@ -20,6 +20,9 @@
         <activity
             android:name=".SportActivity"
             android:label="@string/sport_news" />
+        <activity
+            android:name=".NewsActivity"
+            android:label="News" />
     </application>
 
 </manifest>

@@ -20,33 +20,40 @@
         android:orientation="vertical"
         android:paddingLeft="16dp">
 
-        <TextView
-            android:id="@+id/source_name_view"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            tools:text="First News"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/source_country_view"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="bottom"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/darker_gray"
-            tools:text="\@EN"/>
+            <TextView
+                android:id="@+id/source_name_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="8dp"
+                android:gravity="bottom"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                tools:text="First Source"/>
+
+            <TextView
+                android:id="@+id/source_country_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="@android:color/secondary_text_dark_nodisable"
+                android:textAllCaps="true"
+                tools:text="EN"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/source_description_view"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:maxLines="4"
+            android:ellipsize="end"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/white"
             tools:text="description"/>
