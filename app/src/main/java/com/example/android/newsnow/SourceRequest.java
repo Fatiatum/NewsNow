@@ -1,5 +1,7 @@
 package com.example.android.newsnow;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 

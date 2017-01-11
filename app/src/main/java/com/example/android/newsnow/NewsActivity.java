@@ -13,17 +13,20 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
-public class NewsActivity extends AppCompatActivity{
+public class NewsActivity extends AppCompatActivity {
 
-    private String mSourceId;
     private ArrayList<String> mAllSources;
     private NewsAdapter mAdapter;
+    private ArrayList<String> mSourceImage;
 
     private static final String URL_HEADER = "https://newsapi.org/v1/articles?source=";
     private static final String URL_API_KEY = "&apiKey=e84cf03af6eb4b839d0fb49db1cc641a";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,16 +34,17 @@ public class NewsActivity extends AppCompatActivity{
         setContentView(R.layout.news_item);
 
         Intent intent = getIntent();
-        mSourceId = intent.getStringExtra("sourceId");
         mAllSources = intent.getStringArrayListExtra("sources");
+        mSourceImage = intent.getStringArrayListExtra("sourcesImages");
 
         ListView listView = (ListView) findViewById(R.id.list);
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         listView.setAdapter(mAdapter);
 
-        String urls[] = new String[30];
-        for (int i = 0; i < mAllSources.size(); i++){
-            urls[i] = makeUrl(mAllSources.get(i));
+        String urls[] = new String[mAllSources.size() * 2];
+        for (int i = 0; i < mAllSources.size() * 2; i += 2) {
+            urls[i] = makeUrl(mAllSources.get(i / 2));
+            urls[i + 1] = mSourceImage.get(i / 2);
         }
         NewsAsyncTask task = new NewsAsyncTask();
         task.execute(urls);
@@ -50,18 +54,16 @@ public class NewsActivity extends AppCompatActivity{
         return URL_HEADER + sourceId + URL_API_KEY;
     }
 
-    private class NewsAsyncTask extends AsyncTask<String, Void, List<News>>{
+    private class NewsAsyncTask extends AsyncTask<String, Void, List<News>> {
         @Override
         protected List<News> doInBackground(String... urls) {
             if (urls.length < 1 || urls[0] == null) {
                 return null;
             }
-            List<News> result = NewsRequest.fetchNews(urls[0]);
+            List<News> result = NewsRequest.fetchNews(urls[0], urls[1]);
 
-            for(int i = 1; i < urls.length; i++){
-                if(urls[i]==null)
-                    break;
-                result.addAll(NewsRequest.fetchNews(urls[i]));
+            for (int i = 2; i < urls.length; i += 2) {
+                result.addAll(NewsRequest.fetchNews(urls[i], urls[i + 1]));
             }
             Collections.sort(result, new Comparator<News>() {
                 @Override
@@ -75,7 +77,7 @@ public class NewsActivity extends AppCompatActivity{
         @Override
         protected void onPostExecute(List<News> data) {
             mAdapter.clear();
-            if(data != null && !data.isEmpty()) {
+            if (data != null && !data.isEmpty()) {
                 mAdapter.addAll(data);
             }
         }

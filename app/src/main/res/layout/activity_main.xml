@@ -5,95 +5,49 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:minHeight="@dimen/news_image_height"
     android:orientation="vertical"
-    android:background="@android:color/holo_blue_dark"
+    android:background="@color/accent"
+    android:padding="16dp"
     tools:context="com.example.android.newsnow.MainActivity">
 
     <TextView
-        android:id="@+id/all"
-        style="@style/CategoryStyle"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:background="@color/category_boxes"
-        android:text="@string/all_news" />
+        android:id="@+id/business"
+        style="@style/MainActivityStyle"
+        android:text="@string/business_news" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/entertainment"
+        style="@style/MainActivityStyle"
+        android:text="@string/entertainment_news" />
 
-        <TextView
-            android:id="@+id/business"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/business_news" />
+    <TextView
+        android:id="@+id/gaming"
+        style="@style/MainActivityStyle"
+        android:text="@string/gaming_news" />
 
-        <TextView
-            android:id="@+id/entertainment"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/entertainment_news" />
+    <TextView
+        android:id="@+id/general"
+        style="@style/MainActivityStyle"
+        android:text="@string/general_news" />
 
+    <TextView
+        android:id="@+id/music"
+        style="@style/MainActivityStyle"
+        android:text="@string/music_news" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/science_and_nature"
+        style="@style/MainActivityStyle"
+        android:text="@string/science_and_nature_news" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+    <TextView
+        android:id="@+id/sport"
+        style="@style/MainActivityStyle"
+        android:text="@string/sport_news" />
 
-        <TextView
-            android:id="@+id/gaming"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/gaming_news" />
-
-        <TextView
-            android:id="@+id/general"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/general_news" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/music"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/music_news" />
-
-        <TextView
-            android:id="@+id/science_and_nature"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/science_and_nature_news" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/sport"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/sport_news" />
-
-        <TextView
-            android:id="@+id/technology"
-            style="@style/CategoryStyle"
-            android:background="@color/category_boxes"
-            android:text="@string/technology_news" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/technology"
+        style="@style/MainActivityStyle"
+        android:text="@string/technology_news" />
 
 </LinearLayout>

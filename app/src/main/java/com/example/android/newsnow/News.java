@@ -1,14 +1,17 @@
 package com.example.android.newsnow;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+
 import java.util.Timer;
 
 public class News {
 
     private static final int NO_IMAGE = -1;
-    private String mAuthor, mTitle, mDescription, mUrl, mUrltoImage, mDate, mSource;
+    private String mAuthor, mTitle, mDescription, mUrl, mUrltoImage, mDate, mSource, mSourceImage;
     private int mImageResourceId = NO_IMAGE;
 
-    public News(String author, String title, String description, String url, String urlToImage, String date, String source) {
+    public News(String author, String title, String description, String url, String urlToImage, String date, String source, String sourceImage) {
         mAuthor = author;
         mTitle = title;
         mDescription = description;
@@ -16,6 +19,7 @@ public class News {
         mUrltoImage = urlToImage;
         mDate = date;
         mSource = source;
+        mSourceImage = sourceImage;
     }
 
     public int getImageResourceId() {
@@ -52,6 +56,10 @@ public class News {
 
     public String getSource() {
         return mSource;
+    }
+
+    public String getmSourceImage() {
+        return mSourceImage;
     }
 
 }

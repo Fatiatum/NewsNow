@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected List<NewsSource> doInBackground(String... urls) {
-            if(urls.length < 1 || urls[0] == null)
+            if (urls.length < 1 || urls[0] == null)
                 return null;
 
             List<NewsSource> result = SourceRequest.fetchSources(urls[0]);
@@ -132,10 +132,13 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<NewsSource> sources) {
             Intent newsIntent = new Intent(MainActivity.this, NewsActivity.class);
             ArrayList<String> allSources = new ArrayList<>();
-            for(int i = 0; i < sources.size(); i++){
+            ArrayList<String> sourcesImages = new ArrayList<>();
+            for (int i = 0; i < sources.size(); i++) {
                 allSources.add(sources.get(i).getId());
+                sourcesImages.add(sources.get(i).getmSmallLogo());
             }
             newsIntent.putExtra("sources", allSources);
+            newsIntent.putExtra("sourcesImages", sourcesImages);
             startActivity(newsIntent);
         }
     }

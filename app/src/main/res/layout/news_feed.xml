@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="18dp"
-    android:minHeight="@dimen/news_image_height"
-    android:background="@android:color/holo_blue_dark">
+    android:layout_height="match_parent"
+    android:background="@color/news_background"
+    android:orientation="horizontal"
+    android:padding="18dp">
 
-    <ImageView
+    <WebView
         android:id="@+id/image"
         android:layout_width="@dimen/news_image_height"
-        android:layout_height="@dimen/news_image_height"/>
+        android:layout_height="@dimen/news_image_height" />
 
     <LinearLayout
         android:id="@+id/text_container"
@@ -24,47 +23,48 @@
             android:id="@+id/news_title_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingRight="8dp"
+            android:ellipsize="end"
             android:gravity="bottom"
+            android:maxLines="2"
+            android:paddingRight="8dp"
             android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/white"
+            android:textColor="@color/primary_text"
             android:textStyle="bold"
-            tools:text="First News"/>
+            tools:text="First News" />
+
+        <TextView
+            android:id="@+id/news_source_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/secondary_text"
+            tools:text="Source" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/news_source_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/secondary_text_dark_nodisable"
-                tools:text="Source"/>
+            android:orientation="horizontal"
+            android:gravity="right">
 
             <TextView
                 android:id="@+id/news_date_view"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textAppearance="?android:textAppearanceMedium"
-                android:textColor="@android:color/secondary_text_dark_nodisable"
-                tools:text="DD:MM:YYYY"/>
+                android:textColor="@color/secondary_text"
+                tools:text="DD:MM:YYYY" />
+
+            <TextView
+                android:id="@+id/news_time_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="8dp"
+                android:textColor="@color/secondary_text"
+                tools:text="HH:MM" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/news_description_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="4"
-            android:ellipsize="end"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/white"
-            tools:text="description"/>
 
     </LinearLayout>
 
 </LinearLayout>
+

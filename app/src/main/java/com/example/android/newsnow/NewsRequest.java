@@ -1,6 +1,8 @@
 package com.example.android.newsnow;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,7 +25,7 @@ public final class NewsRequest {
 
     private NewsRequest() {}
 
-    public static List<News> fetchNews(String requestUrl) {
+    public static List<News> fetchNews(String requestUrl, String sourceImage) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -36,13 +38,13 @@ public final class NewsRequest {
         }
 
         // Extract relevant fields from the JSON response and create a list of Sources
-        List<News> news = extractDataFromJson(jsonResponse);
+        List<News> news = extractDataFromJson(jsonResponse, sourceImage);
 
         // Return the list of Sources
         return news;
     }
 
-    private static List<News> extractDataFromJson(String jsonResponse) {
+    private static List<News> extractDataFromJson(String jsonResponse, String sourceImage) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(jsonResponse)) {
             return null;
@@ -74,15 +76,12 @@ public final class NewsRequest {
                 String date = currentNews.getString("publishedAt");
 
                 // Create a new Source object with all extracted data
-                News news = new News(author, title, description, url, urlToImage, date, source);
+                News news = new News(author, title, description, url, urlToImage, date, source, sourceImage);
                 // Add the new Source to the list of sources.
                 newsList.add(news);
             }
 
         } catch (JSONException e) {
-            // If an error is thrown when executing any of the above statements in the "try" block,
-            // catch the exception here, so the app doesn't crash. Print a log message
-            // with the message from the exception.
             Log.e("NewsRequest", "Problem parsing the news JSON results", e);
         }
 

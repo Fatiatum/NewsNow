@@ -14,8 +14,6 @@ import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity {
 
-    private SourceAdapter mAdapter;
-
     /** URL for earthquake data from the USGS dataset */
     private static final String REQUEST_URL =
             "https://newsapi.org/v1/sources?language=en&category=";

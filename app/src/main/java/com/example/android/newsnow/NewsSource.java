@@ -1,5 +1,7 @@
 package com.example.android.newsnow;
 
+import android.graphics.Bitmap;
+
 public class NewsSource {
 
     private static final int NO_IMAGE = -1;
@@ -54,15 +56,15 @@ public class NewsSource {
         mLargeLogo = large;
     }
 
-    public void setmTop(boolean mTop) {
-        this.mTop = mTop;
+    public String getmSmallLogo() {
+        return mSmallLogo;
     }
 
-    public void setmPopular(boolean mPopular) {
-        this.mPopular = mPopular;
+    public String getmLargeLogo() {
+        return mLargeLogo;
     }
 
-    public void setmLatest(boolean mLatest) {
-        this.mLatest = mLatest;
+    public String getmMediumLogo() {
+        return mMediumLogo;
     }
 }
