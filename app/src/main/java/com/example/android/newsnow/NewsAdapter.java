@@ -35,6 +35,9 @@ class NewsAdapter extends ArrayAdapter<News> {
         TextView titleTextView = (TextView) listItemView.findViewById(R.id.news_title_view);
         titleTextView.setText(currentNews.getTitle());
 
+        TextView sourceTextView = (TextView) listItemView.findViewById(R.id.news_source_view);
+        sourceTextView.setText(currentNews.getSource());
+
         if (currentNews.getDate() != "null") {
             TextView dateTextView = (TextView) listItemView.findViewById(R.id.news_date_view);
             dateTextView.setText(formatDate(currentNews.getDate()));
@@ -42,12 +45,12 @@ class NewsAdapter extends ArrayAdapter<News> {
             TextView timeTextView = (TextView) listItemView.findViewById(R.id.news_time_view);
             timeTextView.setText(formatTime(currentNews.getDate()));
         }
-
+/*
         WebView image = (WebView) listItemView.findViewById(R.id.image);
         image.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         //image.layout(0,0,5,5);
         image.loadUrl(currentNews.getmSourceImage());
-
+*/
         return listItemView;
     }
 

@@ -1,9 +1,12 @@
 package com.example.android.newsnow;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -41,7 +44,7 @@ public class NewsActivity extends AppCompatActivity {
         mAdapter = new NewsAdapter(this, new ArrayList<News>());
         listView.setAdapter(mAdapter);
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Convert the String URL into a URI object (to pass into the Intent constructor)
@@ -53,7 +56,7 @@ public class NewsActivity extends AppCompatActivity {
                 // Send the intent to launch a new activity
                 startActivity(websiteIntent);
             }
-        });*/
+        });
 
         String urls[] = new String[mAllSources.size() * 2];
         for (int i = 0; i < mAllSources.size() * 2; i += 2) {
