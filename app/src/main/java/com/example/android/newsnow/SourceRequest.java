@@ -1,7 +1,5 @@
 package com.example.android.newsnow;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,16 +19,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fc__j on 04/01/2017.
+ * Auxiliar class responsible to make the request and set all properties needed to make the connection to the api
  */
-public final class SourceRequest {
+final class SourceRequest {
 
     /** Tag for the log messages */
     private static final String LOG_TAG = SourceRequest.class.getSimpleName();
 
     private SourceRequest() {}
 
-    public static List<NewsSource> fetchSources(String requestUrl) {
+    static List<NewsSource> fetchSources(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -42,13 +40,15 @@ public final class SourceRequest {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of Sources
-        List<NewsSource> sources = extractDataFromJson(jsonResponse);
-
         // Return the list of Sources
-        return sources;
+        return extractDataFromJson(jsonResponse);
     }
 
+    /**
+     * Gets string url passed from AsyncTask and converts in a URL object
+     * @param stringUrl
+     * @return
+     */
     private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
@@ -59,6 +59,11 @@ public final class SourceRequest {
         return url;
     }
 
+    /**
+     * Gets all data from the request and fill the object array with all important info fetched
+     * @param jsonResponse
+     * @return
+     */
     private static List<NewsSource> extractDataFromJson(String jsonResponse) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(jsonResponse)) {
@@ -87,19 +92,11 @@ public final class SourceRequest {
 
                 // Extract all information used for sources
                 String id = currentSource.getString("id");
-                String name = currentSource.getString("name");
-                String description = currentSource.getString("description");
-                String url = currentSource.getString("url");
-                String country = currentSource.getString("country");
-                String language = currentSource.getString("language");
                 JSONObject logos = currentSource.getJSONObject("urlsToLogos");
-                JSONArray sortBys = currentSource.getJSONArray("sortBysAvailable");
 
                 // Create a new Source object with all extracted data
-                NewsSource source = new NewsSource(id, name, description, url, country, language);
+                NewsSource source = new NewsSource(id);
                 source.setSLogo(logos.getString("small"));
-                source.setMLogo(logos.getString("medium"));
-                source.setLLogo(logos.getString("large"));
                 // Add the new Source to the list of sources.
                 sources.add(source);
             }
@@ -115,6 +112,12 @@ public final class SourceRequest {
         return sources;
     }
 
+    /**
+     * Sets connection properties and gets response in a formatted jsonresponse
+     * @param url
+     * @return
+     * @throws IOException
+     */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -153,6 +156,12 @@ public final class SourceRequest {
         return jsonResponse;
     }
 
+    /**
+     * Formats request response using first InputStreamReader and then BufferedReader in order to get all response formatted
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {

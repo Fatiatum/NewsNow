@@ -1,65 +1,39 @@
 package com.example.android.newsnow;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+/**
+ * News Object Class
+ * Gets title, date, source, source image and url params that are fetched from API request
+ */
+class News {
 
-import java.util.Timer;
+    private String mTitle, mDate, mSource, mSourceImage, mUrl;
 
-public class News {
+    News(String title, String date, String source, String sourceImage, String url) {
 
-    private static final int NO_IMAGE = -1;
-    private String mAuthor, mTitle, mDescription, mUrl, mUrltoImage, mDate, mSource, mSourceImage;
-    private int mImageResourceId = NO_IMAGE;
-
-    public News(String author, String title, String description, String url, String urlToImage, String date, String source, String sourceImage) {
-        mAuthor = author;
         mTitle = title;
-        mDescription = description;
-        mUrl = url;
-        mUrltoImage = urlToImage;
         mDate = date;
         mSource = source;
         mSourceImage = sourceImage;
+        mUrl = url;
     }
 
-    public int getImageResourceId() {
-        return mImageResourceId;
-    }
-
-    public String getAuthor() {
-        return mAuthor;
-    }
-
-    public String getDate() {
+    String getDate() {
         return mDate;
     }
 
-    public String getDescription() {
-        return mDescription;
-    }
-
-    public String getTitle() {
+    String getTitle() {
         return mTitle;
-    }
-
-    public String getUrl() {
-        return mUrl;
-    }
-
-    public String getUrltoImage() {
-        return mUrltoImage;
-    }
-
-    public boolean hasImage() {
-        return mImageResourceId != NO_IMAGE;
     }
 
     public String getSource() {
         return mSource;
     }
 
-    public String getmSourceImage() {
+    String getmSourceImage() {
         return mSourceImage;
     }
 
+    public String getUrl() {
+        return mUrl;
+    }
 }

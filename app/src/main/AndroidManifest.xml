@@ -18,9 +18,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CategoryActivity"
-            android:label="News Now" />
-        <activity
             android:name=".NewsActivity"
             android:label="News Now" />
     </application>

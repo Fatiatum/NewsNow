@@ -1,8 +1,5 @@
 package com.example.android.newsnow;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -21,11 +18,14 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class NewsRequest {
+/**
+ * Auxiliar class responsible to make the request and set all properties needed to make the connection to the api
+ */
+final class NewsRequest {
 
     private NewsRequest() {}
 
-    public static List<News> fetchNews(String requestUrl, String sourceImage) {
+    static List<News> fetchNews(String requestUrl, String sourceImage) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -37,13 +37,16 @@ public final class NewsRequest {
             Log.e("NewsRequest", "Problem making the HTTP request.", e);
         }
 
-        // Extract relevant fields from the JSON response and create a list of Sources
-        List<News> news = extractDataFromJson(jsonResponse, sourceImage);
-
         // Return the list of Sources
-        return news;
+        return extractDataFromJson(jsonResponse, sourceImage);
     }
 
+    /**
+     * Gets all data from the request and fill the object array with all important info fetched
+     * @param jsonResponse
+     * @param sourceImage
+     * @return newsList
+     */
     private static List<News> extractDataFromJson(String jsonResponse, String sourceImage) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(jsonResponse)) {
@@ -68,15 +71,12 @@ public final class NewsRequest {
                 JSONObject currentNews = newsArray.getJSONObject(i);
 
                 // Extract all information used for sources
-                String author = currentNews.getString("author");
                 String title = currentNews.getString("title");
-                String description = currentNews.getString("description");
-                String url = currentNews.getString("url");
-                String urlToImage = currentNews.getString("urlToImage");
                 String date = currentNews.getString("publishedAt");
+                String url = currentNews.getString("url");
 
                 // Create a new Source object with all extracted data
-                News news = new News(author, title, description, url, urlToImage, date, source, sourceImage);
+                News news = new News(title, date, source, sourceImage, url);
                 // Add the new Source to the list of sources.
                 newsList.add(news);
             }
@@ -89,6 +89,12 @@ public final class NewsRequest {
         return newsList;
     }
 
+    /**
+     * Sets connection properties and gets response in a formatted jsonresponse
+     * @param url
+     * @return
+     * @throws IOException
+     */
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -127,6 +133,12 @@ public final class NewsRequest {
         return jsonResponse;
     }
 
+    /**
+     * Formats request response using first InputStreamReader and then BufferedReader in order to get all response formatted
+     * @param inputStream
+     * @return
+     * @throws IOException
+     */
     private static String readFromStream(InputStream inputStream) throws IOException{
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -141,6 +153,11 @@ public final class NewsRequest {
         return output.toString();
     }
 
+    /**
+     * Gets string url passed from AsyncTask and converts in a URL object
+     * @param requestUrl
+     * @return
+     */
     private static URL createUrl(String requestUrl) {
         URL url = null;
         try {
