@@ -45,12 +45,7 @@ class NewsAdapter extends ArrayAdapter<News> {
             TextView timeTextView = (TextView) listItemView.findViewById(R.id.news_time_view);
             timeTextView.setText(formatTime(currentNews.getDate()));
         }
-/*
-        WebView image = (WebView) listItemView.findViewById(R.id.image);
-        image.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
-        //image.layout(0,0,5,5);
-        image.loadUrl(currentNews.getmSourceImage());
-*/
+
         return listItemView;
     }
 
